@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Page</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body class="container">
+    <h1>User Registration Page</h1>
+
+    <p class="warning" th:if="${error}" th:text="${error}"></p>
+    <p class="success" th:if="${success}" th:text="${success}"></p>
+
+    <form th:action="@{/user/register}" method="post">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" id="firstName" required>
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" id="lastName" required>
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required>
+        <label for="password">Password</label>
+        <input type="text" name="password" id="password" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <a th:href="@{/login}">Click here to LOGIN</a>
+
+</body>
+</html>
