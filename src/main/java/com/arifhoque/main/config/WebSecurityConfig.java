@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -22,9 +22,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    @SuppressWarnings("deprecation")
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -39,6 +38,8 @@ public class WebSecurityConfig {
                         .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(antMatcher("/login/**")).permitAll()
                         .requestMatchers(antMatcher("/user/register/**")).permitAll()
+                        .requestMatchers(antMatcher("/user/**")).hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers(antMatcher("/admin/**")).hasAuthority("ROLE_ADMIN")
                         .anyRequest().fullyAuthenticated()
                 )
                 .formLogin(loginConfig -> loginConfig
